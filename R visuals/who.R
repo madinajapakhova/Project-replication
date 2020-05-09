@@ -1,4 +1,4 @@
-# Average number of cases of child(<5yrs) death in 2013-2018. World map and Uganda, based on WHO data
+##### Average number of cases of child(<5yrs) death in 2013-2018. World map and Uganda, based on WHO data
 rm(list=ls())
 library(tidyverse)
 library(ggplot2)
