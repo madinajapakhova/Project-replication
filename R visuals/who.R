@@ -28,7 +28,7 @@ names(averages)[names(averages)=="Number.of.neonatal.deaths..thousands."] <- "ne
 
 #####Dividing countries by deaths # into 6 groups######
 str(averages)
-#means <- transform(averages, u5 = as.numeric(u5), infants = as.numeric(infants), neonatal = as.numeric(neonatal))
+#averages <- transform(averages, u5 = as.numeric(u5), infants = as.numeric(infants), neonatal = as.numeric(neonatal))
 averages <- averages %>% mutate_if(is.numeric, ~round(., 1))
 averages$range <- cut2(averages$u5, 6)
 #averages$range <- format(averages$range, scientific = FALSE)
