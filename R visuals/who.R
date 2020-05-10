@@ -75,7 +75,7 @@ WHO$ISO[which(WHO$Country == "Yemen")] <- "YEM"
 
 ##### World map#####
 data("World")
-WHO <- merge(World, WHO, by.x = "iso_a3", by.y="ISO", all.x=FALSE)
+WHO <- merge(World, WHO, by.x = "iso_a3", by.y="ISO", all.x=TRUE)
 colnames(WHO)
 WHO <- subset(WHO, select = c("iso_a3", "Country", "u5", "infants", "neonatal", "category", 
                               "range", "geometry"))
@@ -100,7 +100,8 @@ tm_shape(WHO[WHO$Country == "Uganda",]) +
   tm_polygons("u5", palette = "Accent", 
               title = "Average number of cases of child death, 2013-2018") +
   tm_layout(bg.color = "skyblue", legend.outside = TRUE) +
-  tm_bubbles(size = "category", col = "blue") +
+  tm_bubbles(size = "category",border.col = "black", labels = c("I", "II", "IV","VI"),
+             col = "blueviolet") +
   tm_shape(World) +
   tm_borders("black", lwd = .5)+
   tm_text("iso_a3", size = "AREA") 
