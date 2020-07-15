@@ -1,3 +1,4 @@
+rm(list=ls())
 library(tidyverse)
 library(ggplot2)
 library(tmap)
@@ -8,12 +9,12 @@ library(ISOcodes)
 options(scipen = 999)
 setwd("C:/Users/ZEF/Desktop/madina/programming")
 
-#data: WHO, 2013-2018: child mortality rates, i.e. probability of dying between
-#birth and age 1 year/5 years or probability of a neonatal death per 1000 live births 
+#preparation of WHO data
+
 mortality_rates <- read.csv("probability of dying per 1000 live births.csv")
 
-##### renaming variables
 colnames(mortality_rates)
+#renaming columns for ease
 names(mortality_rates)[names(mortality_rates)=="Under.5.mortality.rate"] <- "u5"
 names(mortality_rates)[names(mortality_rates)=="Infant.mortality.rate"] <- "infants"
 names(mortality_rates)[names(mortality_rates)=="Neonatal.mortality.rate"] <- "neonatal"
@@ -48,7 +49,6 @@ mortality_rates$ISO3_Code[which(mortality_rates$Country == "United Kingdom of Gr
 mortality_rates$ISO3_Code[which(mortality_rates$Country == "United Republic of Tanzania")] <- "TZA"
 mortality_rates$ISO3_Code[which(mortality_rates$Country == "United States of America")] <- "USA"
 mortality_rates$ISO3_Code[which(mortality_rates$Country == "Venezuela (Bolivarian Republic of)")] <- "VEN"
-
 ##### World map #####
 data("World")
 WHO_2017 <- merge(World, mortality_rates, by.x = "iso_a3", by.y="ISO3_Code", all.x=TRUE)
@@ -69,3 +69,17 @@ tm_shape(WHO_2017) +
   tm_shape(World) +
   tm_borders("black", lwd = .5) +
   tm_text("iso_a3", size = "AREA")
+#exported as "WHO_2017.png"
+
+#Country of interest: Uganda
+tm_shape(WHO_2017[WHO_2017$Country == "Uganda",]) +
+  tm_polygons("u5", palette = "Accent", 
+              title = "Uganda: Child mortality rate(<5 yrs)") +
+  tm_layout(bg.color = "skyblue", legend.outside = TRUE) +
+  tm_bubbles(size = "group",border.col = "black", labels = c("I", "II", "IV","VI"),
+             col = "blueviolet") +
+  tm_shape(World) +
+  tm_borders("black", lwd = .5)+
+  tm_text("iso_a3", size = "AREA") 
+#exported as "Uganda.png"
+ttm()
